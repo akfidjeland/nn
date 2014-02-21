@@ -4,11 +4,12 @@ function Mean:__init(dimension)
    parent.__init(self)
    dimension = dimension or 1
    self.dimension = dimension
+   self.preoutput = torch.Tensor()
 end
 
 function Mean:updateOutput(input)
-   input.torch.mean(self.output, input, self.dimension)
-   self.output = self.output:select(self.dimension, 1)
+   self.preoutput:mean(input, self.dimension)
+   self.output = self.preoutput:select(self.dimension, 1)
    return self.output
 end
 
